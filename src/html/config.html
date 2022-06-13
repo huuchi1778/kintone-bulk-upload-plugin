@@ -1,7 +1,7 @@
 <section class="settings">
   <h2 class="settings-heading">Select Attachment Fields</h2>
   <p class="kintoneplugin-desc">Select the attachment fields you want to bulk upload into.</p>
-  <form class="js-submit-settings">
+  <form class="js-submit-settings" id="checkbox-form">
     <p class="kintoneplugin-row" id="checkbox-row">
         <!-- <div class="kintoneplugin-input-checkbox"><span class="kintoneplugin-input-checkbox-item"><input type="checkbox" name="checkbox" value="0" id="checkbox-0"><label for="checkbox-0">attachment_1</label></span></div>
         <div class="kintoneplugin-input-checkbox"><span class="kintoneplugin-input-checkbox-item"><input type="checkbox" name="checkbox" value="1" id="checkbox-1"><label for="checkbox-1">attachment_2</label></span></div>
@@ -9,8 +9,8 @@
         <div class="kintoneplugin-input-checkbox"><span class="kintoneplugin-input-checkbox-item"><input type="checkbox" name="checkbox" value="3" id="checkbox-3"><label for="checkbox-3">attachment_4</label></span></div> -->
     </p>
     <p class="kintoneplugin-row">
-        <button type="button" class="js-cancel-button kintoneplugin-button-dialog-cancel">Cancel</button>
-        <button class="kintoneplugin-button-dialog-ok">Save</button>
+        <button id="cancel-button" class="kintoneplugin-button-dialog-cancel">Cancel</button>
+        <button id="save-button"  class="kintoneplugin-button-dialog-ok">Save</button>
     </p>
   </form>
 </section>

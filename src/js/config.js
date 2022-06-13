@@ -21,7 +21,7 @@ function buildCheckbox (fieldCode) {
 
     let checkboxInput = document.createElement("input");
     checkboxInput.type = "checkbox";
-    checkboxInput.name = "checkbox";
+    checkboxInput.name = "field-checkbox";
     checkboxInput.id = `checkbox-${i}`
     checkboxInput.value = fieldCode[i];
 
@@ -38,6 +38,30 @@ function buildCheckbox (fieldCode) {
   }
 }
 
+function saveConfig (event, PLUGIN_ID) {
+  event.preventDefault();
+  const checkboxForm = document.getElementsByName("field-checkbox");
+  const saveConfigRequest = {};
+  for(let i = 0; i < checkboxForm.length; i++) {
+    if(checkboxForm[i].checked === true){
+      saveConfigRequest[`field_${i}`] = checkboxForm[i].value;
+    }
+  }
+  if (Object.keys(saveConfigRequest).length >= 1){
+    kintone.plugin.app.setConfig(saveConfigRequest, () => {
+      console.log("Saved successfully!");
+    });
+  } else {
+    console.log("Please select at least one field!");
+  }
+  
+}
+
+function redirectUser(event) {
+  event.preventDefault();
+  console.log("Redirecting...");
+}
+
 (function($, PLUGIN_ID) {
   'use strict';
   kintone.api(kintone.api.url('/k/v1/app/form/fields', true), 'GET', {'app': kintone.app.getId()})
@@ -50,4 +74,14 @@ function buildCheckbox (fieldCode) {
     .catch(error => {
       console.error(error);
     });
+  
+  const saveBtn = document.getElementById("save-button");
+  saveBtn.addEventListener("click", (event) => {
+    saveConfig(event, PLUGIN_ID)});
+
+  const cancelBtn = document.getElementById("cancel-button");
+  cancelBtn.addEventListener("click", (event) => {
+    redirectUser(event);
+  });
+
 })(jQuery, kintone.$PLUGIN_ID);
