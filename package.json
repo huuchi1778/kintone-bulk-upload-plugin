@@ -1,5 +1,5 @@
 {
-  "name": "ulk-upload-plugin",
+  "name": "bulk-upload-plugin",
   "version": "0.1.0",
   "scripts": {
     "start": "node scripts/npm-start.js",

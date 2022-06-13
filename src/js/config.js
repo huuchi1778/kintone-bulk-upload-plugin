@@ -47,6 +47,7 @@ function saveConfig (event, PLUGIN_ID) {
       saveConfigRequest[`field_${i}`] = checkboxForm[i].value;
     }
   }
+
   if (Object.keys(saveConfigRequest).length >= 1){
     kintone.plugin.app.setConfig(saveConfigRequest, () => {
       console.log("Saved successfully!");
@@ -54,12 +55,12 @@ function saveConfig (event, PLUGIN_ID) {
   } else {
     console.log("Please select at least one field!");
   }
-  
 }
 
 function redirectUser(event) {
   event.preventDefault();
-  console.log("Redirecting...");
+  window.location.href = `/k/admin/app/${kintone.app.getId()}/plugin/`;
+  // location.replace(url);
 }
 
 (function($, PLUGIN_ID) {
