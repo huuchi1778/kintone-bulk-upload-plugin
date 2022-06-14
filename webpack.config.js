@@ -3,9 +3,9 @@ const path = require('path');
 module.exports = (env = {}) => {
   return {
     entry: {
-      desktop: path.resolve(__dirname, 'src/js/desktop.js'),
-      config: path.resolve(__dirname, 'src/js/config.js'),
-      customization: path.resolve(__dirname, 'src/js/customization.js')
+      desktop: path.resolve(__dirname, 'src/js/desktop.ts'),
+      config: path.resolve(__dirname, 'src/js/config.ts'),
+      customization: path.resolve(__dirname, 'src/js/customization.ts')
     },
     output: {
       path: path.resolve(__dirname, "build/js/")

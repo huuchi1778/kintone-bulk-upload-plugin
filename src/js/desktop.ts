@@ -1,4 +1,4 @@
-import {Button} from 'kintone-ui-component';
+import {bulkUploadBtn} from './ui-components/bulkUploadBtn';
 
 (function(PLUGIN_ID) {
   kintone.events.on('app.record.index.show', (event) => {
@@ -6,11 +6,8 @@ import {Button} from 'kintone-ui-component';
     if (headerMenuSpaceElement === null) {
       throw new Error('The header menu element is unavailable on t/docs/rules/no-undefhis page');
     } else {
-      const bulkUploadButton = new Button({text: 'Bulk Upload', type: 'normal'});
-      headerMenuSpaceElement.appendChild(bulkUploadButton);
+      headerMenuSpaceElement.appendChild(bulkUploadBtn);
     }
-
-    console.log(kintone.plugin.app.getConfig(PLUGIN_ID));
   });
 }
 )(kintone.$PLUGIN_ID);

@@ -9,13 +9,13 @@
 /******/ (function() { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./src/js/desktop.js":
+/***/ "./src/js/desktop.ts":
 /*!***************************!*\
-  !*** ./src/js/desktop.js ***!
+  !*** ./src/js/desktop.ts ***!
   \***************************/
 /***/ (function() {
 
-eval("/* eslint-disable no-undef */\n(function (PLUGIN_ID) {\n  'use strict';\n\n  kintone.events.on('app.record.index.show', () => {\n    const config = kintone.plugin.app.getConfig(PLUGIN_ID); // var headerMenuSpaceElement = kintone.app.getHeaderMenuSpaceElement();\n    // if (headerMenuSpaceElement === null) {\n    //   throw new Error('The header menu element is unavailable on this page');\n    // } else {\n    //   const bulkUploadButton = document.createElement('button');\n    //   bulkUploadButton.innerText = \"Bulk Upload\";\n    //   bulkUploadButton.className = 'kintoneplugin-button-normal';\n    //   bulkUploadButton.addEventListener('click', () => {\n    //     alert('Hi from button');\n    //   })\n    //   headerMenuSpaceElement.appendChild(bulkUploadButton);\n    // }\n    //\n  });\n})(kintone.$PLUGIN_ID);\n\n//# sourceURL=webpack://bulk-upload-plugin/./src/js/desktop.js?");
+eval("throw new Error(\"Module build failed (from ./node_modules/ts-loader/index.js):\\nError: \\u001b[31merror while parsing tsconfig.json\\u001b[39m\\n    at Object.loader (/Users/c002431/Desktop/kintoneJS/kintone-bulk-upload-plugin/node_modules/ts-loader/dist/index.js:17:18)\");\n\n//# sourceURL=webpack://bulk-upload-plugin/./src/js/desktop.ts?");
 
 /***/ })
 
@@ -24,9 +24,9 @@ eval("/* eslint-disable no-undef */\n(function (PLUGIN_ID) {\n  'use strict';\n\
 /******/ 	
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
-/******/ 	// This entry module can't be inlined because the eval devtool is used.
+/******/ 	// This entry module doesn't tell about it's top-level declarations so it can't be inlined
 /******/ 	var __webpack_exports__ = {};
-/******/ 	__webpack_modules__["./src/js/desktop.js"]();
+/******/ 	__webpack_modules__["./src/js/desktop.ts"]();
 /******/ 	
 /******/ })()
 ;
