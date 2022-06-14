@@ -1,5 +1,3 @@
-jQuery.noConflict();
-
 function getAttachmentFields (data) {
   const fieldCode = [];
   for(const el in data) {
