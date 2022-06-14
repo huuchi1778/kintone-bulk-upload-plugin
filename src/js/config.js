@@ -60,10 +60,9 @@ function saveConfig (event, PLUGIN_ID) {
 function redirectUser(event) {
   event.preventDefault();
   window.location.href = `/k/admin/app/${kintone.app.getId()}/plugin/`;
-  // location.replace(url);
 }
 
-(function($, PLUGIN_ID) {
+(function(PLUGIN_ID) {
   'use strict';
   kintone.api(kintone.api.url('/k/v1/app/form/fields', true), 'GET', {'app': kintone.app.getId()})
     .then(resp => {
@@ -85,4 +84,4 @@ function redirectUser(event) {
     redirectUser(event);
   });
 
-})(jQuery, kintone.$PLUGIN_ID);
+})(kintone.$PLUGIN_ID);
