@@ -9,7 +9,7 @@ import {loadingSpinner} from './ui-components/loadingSpinner';
   kintone.events.on('app.record.index.show', (event) => {
     // Get config
     const savedConfig = kintone.plugin.app.getConfig(PLUGIN_ID);
-    console.log(savedConfig);
+
     // Add button to header menu space
     const headerMenuSpaceElement = kintone.app.getHeaderMenuSpaceElement();
     if (headerMenuSpaceElement === null) {
@@ -18,6 +18,7 @@ import {loadingSpinner} from './ui-components/loadingSpinner';
       headerMenuSpaceElement.appendChild(bulkUploadBtn);
     }
 
+    // Controller
     bulkUploadBtn.addEventListener('click', () => {
       browseFileDialog();
     });
@@ -36,6 +37,7 @@ import {loadingSpinner} from './ui-components/loadingSpinner';
       }, 1500);
     });
 
+    // Spinner
     loadingSpinner();
 
     return event;
