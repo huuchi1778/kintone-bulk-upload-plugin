@@ -9,6 +9,7 @@ import {loadingSpinner} from './ui-components/loadingSpinner';
   kintone.events.on('app.record.index.show', (event) => {
     // Get config
     const savedConfig = kintone.plugin.app.getConfig(PLUGIN_ID);
+    console.log(savedConfig);
 
     kintone.api(kintone.api.url('/k/v1/app/form/fields', true), 'GET', {'app': kintone.app.getId()}, (resp) => {
       // success
@@ -29,7 +30,7 @@ import {loadingSpinner} from './ui-components/loadingSpinner';
     });
 
     document.addEventListener('kintone-bulk-upload:browse-file-dialog-next-click', async _ => {
-      selectRecordsDialog(event.records);
+      selectRecordsDialog(event.records, savedConfig);
     });
 
     document.addEventListener('kintone-bulk-upload:select-records-dialog-upload-click', _ => {
