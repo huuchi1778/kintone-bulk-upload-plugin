@@ -39,7 +39,7 @@ function buildCheckbox(fieldCode) {
 
 function saveConfig(event, PLUGIN_ID) {
   event.preventDefault();
-  const checkboxForm = document.getElementsByName('field-checkbox');
+  const checkboxForm = document.getElementsByName('field-checkbox') as any;
   const saveConfigRequest = {};
   for (let i = 0; i < checkboxForm.length; i++) {
     if (checkboxForm[i].checked === true) {

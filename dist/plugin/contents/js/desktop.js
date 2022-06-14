@@ -1,1 +1,0 @@
-!function(n){"use strict";kintone.events.on("app.record.index.show",(()=>{kintone.plugin.app.getConfig(n)}))}(kintone.$PLUGIN_ID);
