@@ -4,27 +4,22 @@ import {Button} from 'kintone-ui-component';
 import {selectAll} from '../common';
 // import {htmlEncode} from '../ultility';
 import {CANCEL_BUTTON_TEXT, UPLOAD_BUTTON_TEXT, SELECT_RECORDS_DIALOG_TEXT} from '../constant';
-import {table} from 'console';
+
 
 // Create a new instance of Dialog
 const newSelectRecordsDialog = new Dialog();
 
 // Create content
 function createBodyContent(records, config) {
-
-  let tableContent;
   const recordTable = document.createElement('table');
 
   const tableHeadRow = document.createElement('tr');
   const selectAllCell = document.createElement('th');
-
   const select_all_checkbox = document.createElement('input');
   select_all_checkbox.type = 'checkbox';
   select_all_checkbox.id = 'selectAll';
-
   selectAllCell.appendChild(select_all_checkbox);
   tableHeadRow.appendChild(selectAllCell);
-
   for (const key in config) {
     if (key.includes('display_field_')) {
       const headCell = document.createElement('th');
@@ -33,7 +28,7 @@ function createBodyContent(records, config) {
     }
   }
   recordTable.appendChild(tableHeadRow);
-  // console.log(recordTable);
+
   records.forEach(record => {
     const tableRow = document.createElement('tr');
     const record_id_cell = document.createElement('td');
@@ -41,7 +36,6 @@ function createBodyContent(records, config) {
     record_id_input.type = 'checkbox';
     record_id_input.name = 'selectCheckbox';
     record_id_input.value = record.$id.value;
-
     record_id_cell.appendChild(record_id_input);
     tableRow.appendChild(record_id_cell);
     for (const key in config) {
@@ -53,7 +47,7 @@ function createBodyContent(records, config) {
     }
     recordTable.appendChild(tableRow);
   });
-  console.log(recordTable);
+
   const bodyStyle = `
     <style>
       table, th, td {
