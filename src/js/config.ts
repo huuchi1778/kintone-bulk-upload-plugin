@@ -1,4 +1,4 @@
-import {Notification} from 'kintone-ui-component';
+import {Notification, MultiChoice} from 'kintone-ui-component';
 
 function getAttachmentFields(data) {
   const fieldCode = [];
@@ -28,81 +28,46 @@ function getFieldCodes(data) {
 }
 
 function buildAttachmentFieldCheckbox(fieldsData, PLUGIN_ID) {
-  const checkboxRow = document.getElementById('checkbox-row');
+  const attachmentCheckboxRow = document.getElementById('attachment-field-row');
   const savedConfig = kintone.plugin.app.getConfig(PLUGIN_ID);
   const fieldCode = getAttachmentFields(fieldsData);
+  const multiChoice = new MultiChoice({id: 'select-attachment-field-multichoice'});
   for (let i = 0; i < fieldCode.length; i++) {
-    const checkboxDiv = document.createElement('div');
-    checkboxDiv.className = 'kintoneplugin-input-checkbox';
-
-    const checkboxSpan = document.createElement('span');
-    checkboxSpan.className = 'kintoneplugin-input-checkbox-item';
-
-    const checkboxInput = document.createElement('input');
-    checkboxInput.type = 'checkbox';
-    checkboxInput.name = 'attachment-field-checkbox';
-    checkboxInput.id = `attachment-field-checkbox-${i}`;
-    checkboxInput.value = fieldCode[i];
+    multiChoice.items.push({label: fieldCode[i], value: fieldCode[i]});
     for (const el in savedConfig) {
-      if (savedConfig[el] === checkboxInput.value) {
-        checkboxInput.checked = true;
+      if (savedConfig[el] === fieldCode[i]) {
+        multiChoice.value.push(fieldCode[i]);
       }
     }
-
-    const checkboxLabel = document.createElement('label');
-    checkboxLabel.innerText = fieldCode[i];
-    checkboxLabel.htmlFor = `attachment-field-checkbox-${i}`;
-
-    checkboxSpan.appendChild(checkboxInput);
-    checkboxSpan.appendChild(checkboxLabel);
-
-    checkboxDiv.appendChild(checkboxSpan);
-
-    checkboxRow.appendChild(checkboxDiv);
   }
+  attachmentCheckboxRow.appendChild(multiChoice);
 }
 
 function buildSelectRecordsCheckbox(fieldsData, PLUGIN_ID) {
   const fieldCode = getFieldCodes(fieldsData);
-  const checkboxRow = document.getElementById('config-table-row');
+  const displayTableCheckboxRow = document.getElementById('config-display-table-row');
   // const savedConfig = kintone.plugin.app.getConfig(PLUGIN_ID);
+  const multiChoice = new MultiChoice({id: 'select-display-field-multichoice'});
   for (let i = 0; i < fieldCode.length; i++) {
-    const checkboxDiv = document.createElement('div');
-    checkboxDiv.className = 'kintoneplugin-input-checkbox';
-
-    const checkboxSpan = document.createElement('span');
-    checkboxSpan.className = 'kintoneplugin-input-checkbox-item';
-
-    const checkboxInput = document.createElement('input');
-    checkboxInput.type = 'checkbox';
-    checkboxInput.name = 'display-field-checkbox';
-    checkboxInput.id = `display-field-checkbox-${i}`;
-    checkboxInput.value = fieldCode[i];
-
-    const checkboxLabel = document.createElement('label');
-    checkboxLabel.innerText = fieldCode[i];
-    checkboxLabel.htmlFor = `display-field-checkbox-${i}`;
-
-    checkboxSpan.appendChild(checkboxInput);
-    checkboxSpan.appendChild(checkboxLabel);
-
-    checkboxDiv.appendChild(checkboxSpan);
-
-    checkboxRow.appendChild(checkboxDiv);
+    multiChoice.items.push({label: fieldCode[i], value: fieldCode[i]});
   }
+  displayTableCheckboxRow.appendChild(multiChoice);
 }
 
 function saveConfig(event, PLUGIN_ID) {
   event.preventDefault();
-  const checkboxForm = document.getElementsByName('field-checkbox') as any;
+  const attachmentMultiChoice = document.getElementById('select-attachment-field-multichoice') as any;
+  const displayTableMutliChoice = document.getElementById('select-display-field-multichoice') as any;
   const saveConfigRequest = {};
-  for (let i = 0; i < checkboxForm.length; i++) {
-    if (checkboxForm[i].checked === true) {
-      saveConfigRequest[`field_${i}`] = checkboxForm[i].value;
+  if (attachmentMultiChoice.value.length >= 1 && displayTableMutliChoice.value.length >= 1) {
+    for (let i = 0; i < attachmentMultiChoice.value.length; i++) {
+      saveConfigRequest[`attachment_field_${i}`] = attachmentMultiChoice.value[i];
     }
-  }
 
-  if (Object.keys(saveConfigRequest).length >= 1) {
+    for (let i = 0; i < displayTableMutliChoice.value.length; i++) {
+      saveConfigRequest[`display_field_${i}`] = displayTableMutliChoice.value[i];
+    }
+
     kintone.plugin.app.setConfig(saveConfigRequest, () => {
       const saveSuccessNoti = new Notification({text: 'Plugin settings have been saved. Please update the app!', type: 'success', duration: -1});
       saveSuccessNoti.open();
