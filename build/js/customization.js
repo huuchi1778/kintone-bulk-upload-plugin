@@ -7,15 +7,16 @@
  * If you are looking for production-ready output files, see mode: "production" (https://webpack.js.org/configuration/mode/).
  */
 /******/ (function() { // webpackBootstrap
+/******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
 /***/ "./src/js/customization.ts":
 /*!*********************************!*\
   !*** ./src/js/customization.ts ***!
   \*********************************/
-/***/ (function() {
+/***/ (function(__unused_webpack_module, exports) {
 
-eval("throw new Error(\"Module build failed (from ./node_modules/ts-loader/index.js):\\nError: \\u001b[31merror while parsing tsconfig.json\\u001b[39m\\n    at Object.loader (/Users/c002431/Desktop/kintoneJS/kintone-bulk-upload-plugin/node_modules/ts-loader/dist/index.js:17:18)\");\n\n//# sourceURL=webpack://bulk-upload-plugin/./src/js/customization.ts?");
+eval("\nexports.__esModule = true;\n(function (PLUGIN_ID) {\n    console.log('Hi from customization.js');\n})(kintone.$PLUGIN_ID);\n\n\n//# sourceURL=webpack://bulk-upload-plugin/./src/js/customization.ts?");
 
 /***/ })
 
@@ -24,9 +25,9 @@ eval("throw new Error(\"Module build failed (from ./node_modules/ts-loader/index
 /******/ 	
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
-/******/ 	// This entry module doesn't tell about it's top-level declarations so it can't be inlined
+/******/ 	// This entry module can't be inlined because the eval devtool is used.
 /******/ 	var __webpack_exports__ = {};
-/******/ 	__webpack_modules__["./src/js/customization.ts"]();
+/******/ 	__webpack_modules__["./src/js/customization.ts"](0, __webpack_exports__);
 /******/ 	
 /******/ })()
 ;

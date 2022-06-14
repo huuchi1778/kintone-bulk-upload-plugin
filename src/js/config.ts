@@ -1,4 +1,5 @@
-/* eslint-disable no-undef */
+import {Notification} from 'kintone-ui-component';
+
 function getAttachmentFields(data) {
   const fieldCode = [];
   for (const el in data) {
@@ -9,8 +10,9 @@ function getAttachmentFields(data) {
   return fieldCode;
 }
 
-function buildCheckbox(fieldCode) {
+function buildCheckbox(fieldCode, PLUGIN_ID) {
   const checkboxRow = document.getElementById('checkbox-row');
+  const savedConfig = kintone.plugin.app.getConfig(PLUGIN_ID);
   for (let i = 0; i < fieldCode.length; i++) {
     const checkboxDiv = document.createElement('div');
     checkboxDiv.className = 'kintoneplugin-input-checkbox';
@@ -23,6 +25,11 @@ function buildCheckbox(fieldCode) {
     checkboxInput.name = 'field-checkbox';
     checkboxInput.id = `checkbox-${i}`;
     checkboxInput.value = fieldCode[i];
+    for (const el in savedConfig) {
+      if (savedConfig[el] === checkboxInput.value) {
+        checkboxInput.checked = true;
+      }
+    }
 
     const checkboxLabel = document.createElement('label');
     checkboxLabel.innerText = fieldCode[i];
@@ -49,10 +56,15 @@ function saveConfig(event, PLUGIN_ID) {
 
   if (Object.keys(saveConfigRequest).length >= 1) {
     kintone.plugin.app.setConfig(saveConfigRequest, () => {
-      console.log('Saved successfully!');
+      const saveSuccessNoti = new Notification({text: 'Plugin settings have been saved. Please update the app!', type: 'success', duration: -1});
+      saveSuccessNoti.open();
+      setTimeout(() => {
+        window.location.href = `/k/admin/app/flow?app=${kintone.app.getId()}#section=settings`;
+      }, 2500);
     });
   } else {
-    console.log('Please select at least one field!');
+    const saveErrorNoti = new Notification({text: 'At least ONE field must be selected!', type: 'danger', duration: -1});
+    saveErrorNoti.open();
   }
 }
 
@@ -68,7 +80,7 @@ function redirectUser(event) {
       return getAttachmentFields(resp.properties);
     })
     .then(resp => {
-      buildCheckbox(resp);
+      buildCheckbox(resp, PLUGIN_ID);
     })
     .catch(error => {
       console.error(error);
@@ -83,5 +95,8 @@ function redirectUser(event) {
   cancelBtn.addEventListener('click', (event) => {
     redirectUser(event);
   });
+
+  console.log(kintone.plugin.app.getConfig(PLUGIN_ID));
+  console.log(PLUGIN_ID);
 
 })(kintone.$PLUGIN_ID);
