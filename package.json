@@ -3,18 +3,23 @@
   "version": "0.1.0",
   "scripts": {
     "start": "node scripts/npm-start.js",
-    "develop": "npm run build -- --watch",
-    "build": "kintone-plugin-packer --ppk private.ppk --out dist/plugin.zip src",
+    "develop": "npm run webpack:build -- --watch",
+    "build": "kintone-plugin-packer --ppk private.ppk --out dist/plugin.zip build",
     "lint": "eslint src",
-    "upload": "kintone-plugin-uploader dist/plugin.zip --watch --waiting-dialog-ms 3000"
+    "upload": "kintone-plugin-uploader dist/plugin.zip --watch --waiting-dialog-ms 3000",
+    "webpack:build": "webpack --mode=production"
   },
   "devDependencies": {
     "@cybozu/eslint-config": "^17.0.1",
     "@kintone/plugin-packer": "^6.0.2",
     "@kintone/plugin-uploader": "^7.0.0",
+    "babel-loader": "^8.2.5",
     "eslint": "^8.17.0",
     "npm-run-all": "^4.1.5",
-    "prettier": "^2.6.2"
+    "prettier": "^2.6.2",
+    "webpack": "^5.73.0",
+    "webpack-cli": "^4.10.0",
+    "ts-loader": "^9.3.0"
   },
   "dependencies": {
     "kintone-ui-component": "^1.3.2"
