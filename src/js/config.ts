@@ -10,9 +10,27 @@ function getAttachmentFields(data) {
   return fieldCode;
 }
 
-function buildCheckbox(fieldCode, PLUGIN_ID) {
+function getFieldCodes(data) {
+  const fieldCode = [];
+  for (const el in data) {
+    if (data[el].type === 'SINGLE_LINE_TEXT'
+        || data[el].type === 'RECORD_NUMBER'
+        || data[el].type === 'FILE'
+        || data[el].type === 'CREATOR'
+        || data[el].type === 'CREATED_TIME'
+        || data[el].type === 'MODIFIER'
+        || data[el].type === 'STATUS'
+        || data[el].type === 'UPDATED_TIME') {
+      fieldCode.push(data[el].code);
+    }
+  }
+  return fieldCode;
+}
+
+function buildAttachmentFieldCheckbox(fieldsData, PLUGIN_ID) {
   const checkboxRow = document.getElementById('checkbox-row');
   const savedConfig = kintone.plugin.app.getConfig(PLUGIN_ID);
+  const fieldCode = getAttachmentFields(fieldsData);
   for (let i = 0; i < fieldCode.length; i++) {
     const checkboxDiv = document.createElement('div');
     checkboxDiv.className = 'kintoneplugin-input-checkbox';
@@ -22,8 +40,8 @@ function buildCheckbox(fieldCode, PLUGIN_ID) {
 
     const checkboxInput = document.createElement('input');
     checkboxInput.type = 'checkbox';
-    checkboxInput.name = 'field-checkbox';
-    checkboxInput.id = `checkbox-${i}`;
+    checkboxInput.name = 'attachment-field-checkbox';
+    checkboxInput.id = `attachment-field-checkbox-${i}`;
     checkboxInput.value = fieldCode[i];
     for (const el in savedConfig) {
       if (savedConfig[el] === checkboxInput.value) {
@@ -33,7 +51,37 @@ function buildCheckbox(fieldCode, PLUGIN_ID) {
 
     const checkboxLabel = document.createElement('label');
     checkboxLabel.innerText = fieldCode[i];
-    checkboxLabel.htmlFor = `checkbox-${i}`;
+    checkboxLabel.htmlFor = `attachment-field-checkbox-${i}`;
+
+    checkboxSpan.appendChild(checkboxInput);
+    checkboxSpan.appendChild(checkboxLabel);
+
+    checkboxDiv.appendChild(checkboxSpan);
+
+    checkboxRow.appendChild(checkboxDiv);
+  }
+}
+
+function buildSelectRecordsCheckbox(fieldsData, PLUGIN_ID) {
+  const fieldCode = getFieldCodes(fieldsData);
+  const checkboxRow = document.getElementById('config-table-row');
+  // const savedConfig = kintone.plugin.app.getConfig(PLUGIN_ID);
+  for (let i = 0; i < fieldCode.length; i++) {
+    const checkboxDiv = document.createElement('div');
+    checkboxDiv.className = 'kintoneplugin-input-checkbox';
+
+    const checkboxSpan = document.createElement('span');
+    checkboxSpan.className = 'kintoneplugin-input-checkbox-item';
+
+    const checkboxInput = document.createElement('input');
+    checkboxInput.type = 'checkbox';
+    checkboxInput.name = 'display-field-checkbox';
+    checkboxInput.id = `display-field-checkbox-${i}`;
+    checkboxInput.value = fieldCode[i];
+
+    const checkboxLabel = document.createElement('label');
+    checkboxLabel.innerText = fieldCode[i];
+    checkboxLabel.htmlFor = `display-field-checkbox-${i}`;
 
     checkboxSpan.appendChild(checkboxInput);
     checkboxSpan.appendChild(checkboxLabel);
@@ -77,10 +125,8 @@ function redirectUser(event) {
   'use strict';
   kintone.api(kintone.api.url('/k/v1/app/form/fields', true), 'GET', {'app': kintone.app.getId()})
     .then(resp => {
-      return getAttachmentFields(resp.properties);
-    })
-    .then(resp => {
-      buildCheckbox(resp, PLUGIN_ID);
+      buildAttachmentFieldCheckbox(resp.properties, PLUGIN_ID);
+      buildSelectRecordsCheckbox(resp.properties, PLUGIN_ID);
     })
     .catch(error => {
       console.error(error);

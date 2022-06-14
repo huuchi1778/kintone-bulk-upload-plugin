@@ -4,7 +4,7 @@ import {Button} from 'kintone-ui-component';
 import {CANCEL_BUTTON_TEXT, NEXT_BUTTON_TEXT, BROWSE_FILE_DIALOG_TEXT} from '../constant';
 
 // Create a new instance of Dialog
-const newBrowseFilDialog = new Dialog();
+const newBrowseFileDialog = new Dialog();
 
 // Create content
 function createFileInput() {
@@ -48,16 +48,16 @@ function createFooterContent() {
 
 export function browseFileDialog() {
   // Create dialog
-  newBrowseFilDialog.title = BROWSE_FILE_DIALOG_TEXT;
-  newBrowseFilDialog.content = createBodyContent();
-  newBrowseFilDialog.footer = createFooterContent();
+  newBrowseFileDialog.title = BROWSE_FILE_DIALOG_TEXT;
+  newBrowseFileDialog.content = createBodyContent();
+  newBrowseFileDialog.footer = createFooterContent();
   document.addEventListener('kintone-bulk-upload:browse-file-dialog-cancel-click', _ => {
-    newBrowseFilDialog.close();
+    newBrowseFileDialog.close();
   });
   document.addEventListener('kintone-bulk-upload:browse-file-dialog-next-click', _ => {
-    newBrowseFilDialog.close();
+    newBrowseFileDialog.close();
   });
 
   // Add event listener
-  newBrowseFilDialog.open();
+  newBrowseFileDialog.open();
 }

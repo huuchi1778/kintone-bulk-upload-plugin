@@ -16,8 +16,8 @@ function createBodyContent(records) {
       <tr>
         <td><input type="checkbox" name="selectCheckbox" value="${record.$id.value}"></td>
         <td>${htmlEncode(record.Record_number.value)}</td>
-        <td>${htmlEncode(record.firstName.value)}</td>
-        <td>${htmlEncode(record.lastName.value)}</td>
+        <td>${htmlEncode(record.first_name.value)}</td>
+        <td>${htmlEncode(record.last_name.value)}</td>
       </tr>
     `;
   });

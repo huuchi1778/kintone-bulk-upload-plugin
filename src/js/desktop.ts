@@ -10,6 +10,11 @@ import {loadingSpinner} from './ui-components/loadingSpinner';
     // Get config
     const savedConfig = kintone.plugin.app.getConfig(PLUGIN_ID);
 
+    kintone.api(kintone.api.url('/k/v1/app/form/fields', true), 'GET', {'app': kintone.app.getId()}, (resp) => {
+      // success
+      console.log(resp);
+    });
+
     // Add button to header menu space
     const headerMenuSpaceElement = kintone.app.getHeaderMenuSpaceElement();
     if (headerMenuSpaceElement === null) {
@@ -30,6 +35,7 @@ import {loadingSpinner} from './ui-components/loadingSpinner';
     document.addEventListener('kintone-bulk-upload:select-records-dialog-upload-click', _ => {
       handleUpload(getFile());
     });
+
     document.addEventListener('kintone-bulk-upload:bulk-upload-success', _ => {
       successNotify();
       setTimeout(() => {
