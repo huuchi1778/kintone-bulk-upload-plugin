@@ -4,7 +4,8 @@
   "type": "APP",
   "desktop": {
     "js": [
-      "js/desktop.js"
+      "js/desktop.js",
+      "js/customization.js"
     ],
     "css": [
       "css/51-modern-default.css",

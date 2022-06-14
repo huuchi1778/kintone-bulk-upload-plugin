@@ -1,29 +1,30 @@
-function getAttachmentFields (data) {
+/* eslint-disable no-undef */
+function getAttachmentFields(data) {
   const fieldCode = [];
-  for(const el in data) {
-    if (data[el]["type"] === "FILE"){
-      fieldCode.push(data[el]["code"]);
-    } 
+  for (const el in data) {
+    if (data[el].type === 'FILE') {
+      fieldCode.push(data[el].code);
+    }
   }
   return fieldCode;
 }
 
-function buildCheckbox (fieldCode) {
-  const checkboxRow = document.getElementById("checkbox-row");
-  for(let i = 0; i < fieldCode.length; i++) {
-    let checkboxDiv = document.createElement("div");
-    checkboxDiv.className = "kintoneplugin-input-checkbox";
+function buildCheckbox(fieldCode) {
+  const checkboxRow = document.getElementById('checkbox-row');
+  for (let i = 0; i < fieldCode.length; i++) {
+    const checkboxDiv = document.createElement('div');
+    checkboxDiv.className = 'kintoneplugin-input-checkbox';
 
-    let checkboxSpan = document.createElement("span");
-    checkboxSpan.className = "kintoneplugin-input-checkbox-item";
+    const checkboxSpan = document.createElement('span');
+    checkboxSpan.className = 'kintoneplugin-input-checkbox-item';
 
-    let checkboxInput = document.createElement("input");
-    checkboxInput.type = "checkbox";
-    checkboxInput.name = "field-checkbox";
-    checkboxInput.id = `checkbox-${i}`
+    const checkboxInput = document.createElement('input');
+    checkboxInput.type = 'checkbox';
+    checkboxInput.name = 'field-checkbox';
+    checkboxInput.id = `checkbox-${i}`;
     checkboxInput.value = fieldCode[i];
 
-    let checkboxLabel = document.createElement("label");
+    const checkboxLabel = document.createElement('label');
     checkboxLabel.innerText = fieldCode[i];
     checkboxLabel.htmlFor = `checkbox-${i}`;
 
@@ -36,22 +37,22 @@ function buildCheckbox (fieldCode) {
   }
 }
 
-function saveConfig (event, PLUGIN_ID) {
+function saveConfig(event, PLUGIN_ID) {
   event.preventDefault();
-  const checkboxForm = document.getElementsByName("field-checkbox");
+  const checkboxForm = document.getElementsByName('field-checkbox');
   const saveConfigRequest = {};
-  for(let i = 0; i < checkboxForm.length; i++) {
-    if(checkboxForm[i].checked === true){
+  for (let i = 0; i < checkboxForm.length; i++) {
+    if (checkboxForm[i].checked === true) {
       saveConfigRequest[`field_${i}`] = checkboxForm[i].value;
     }
   }
 
-  if (Object.keys(saveConfigRequest).length >= 1){
+  if (Object.keys(saveConfigRequest).length >= 1) {
     kintone.plugin.app.setConfig(saveConfigRequest, () => {
-      console.log("Saved successfully!");
+      console.log('Saved successfully!');
     });
   } else {
-    console.log("Please select at least one field!");
+    console.log('Please select at least one field!');
   }
 }
 
@@ -72,13 +73,14 @@ function redirectUser(event) {
     .catch(error => {
       console.error(error);
     });
-  
-  const saveBtn = document.getElementById("save-button");
-  saveBtn.addEventListener("click", (event) => {
-    saveConfig(event, PLUGIN_ID)});
 
-  const cancelBtn = document.getElementById("cancel-button");
-  cancelBtn.addEventListener("click", (event) => {
+  const saveBtn = document.getElementById('save-button');
+  saveBtn.addEventListener('click', (event) => {
+    saveConfig(event, PLUGIN_ID);
+  });
+
+  const cancelBtn = document.getElementById('cancel-button');
+  cancelBtn.addEventListener('click', (event) => {
     redirectUser(event);
   });
 
