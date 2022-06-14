@@ -3,11 +3,11 @@
   "version": "0.1.0",
   "scripts": {
     "start": "node scripts/npm-start.js",
-    "develop": "npm run webpack:build -- --watch",
+    "develop": "npm run build -- --watch",
     "build": "kintone-plugin-packer --ppk private.ppk --out dist/plugin.zip build",
     "lint": "eslint src",
     "upload": "kintone-plugin-uploader dist/plugin.zip --watch --waiting-dialog-ms 3000",
-    "webpack:build": "webpack --mode=production"
+    "webpack:build": "webpack --mode=development --watch"
   },
   "devDependencies": {
     "@cybozu/eslint-config": "^17.0.1",
