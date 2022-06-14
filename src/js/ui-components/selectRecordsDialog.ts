@@ -2,38 +2,58 @@
 import {Dialog} from 'kintone-ui-component/lib/dialog';
 import {Button} from 'kintone-ui-component';
 import {selectAll} from '../common';
-import {htmlEncode} from '../ultility';
+// import {htmlEncode} from '../ultility';
 import {CANCEL_BUTTON_TEXT, UPLOAD_BUTTON_TEXT, SELECT_RECORDS_DIALOG_TEXT} from '../constant';
+import {table} from 'console';
 
 // Create a new instance of Dialog
 const newSelectRecordsDialog = new Dialog();
 
 // Create content
-function createBodyContent(records) {
-  let tableContent = '';
+function createBodyContent(records, config) {
+
+  let tableContent;
+  const recordTable = document.createElement('table');
+
+  const tableHeadRow = document.createElement('tr');
+  const selectAllCell = document.createElement('th');
+
+  const select_all_checkbox = document.createElement('input');
+  select_all_checkbox.type = 'checkbox';
+  select_all_checkbox.id = 'selectAll';
+
+  selectAllCell.appendChild(select_all_checkbox);
+  tableHeadRow.appendChild(selectAllCell);
+
+  for (const key in config) {
+    if (key.includes('display_field_')) {
+      const headCell = document.createElement('th');
+      headCell.innerText = config[key];
+      tableHeadRow.appendChild(headCell);
+    }
+  }
+  recordTable.appendChild(tableHeadRow);
+  // console.log(recordTable);
   records.forEach(record => {
-    tableContent += `
-      <tr>
-        <td><input type="checkbox" name="selectCheckbox" value="${record.$id.value}"></td>
-        <td>${htmlEncode(record.Record_number.value)}</td>
-        <td>${htmlEncode(record.first_name.value)}</td>
-        <td>${htmlEncode(record.last_name.value)}</td>
-      </tr>
-    `;
+    const tableRow = document.createElement('tr');
+    const record_id_cell = document.createElement('td');
+    const record_id_input = document.createElement('input');
+    record_id_input.type = 'checkbox';
+    record_id_input.name = 'selectCheckbox';
+    record_id_input.value = record.$id.value;
+
+    record_id_cell.appendChild(record_id_input);
+    tableRow.appendChild(record_id_cell);
+    for (const key in config) {
+      if (key.includes('display_field_')) {
+        const rowCell = document.createElement('td');
+        rowCell.innerText = record[config[key]].value;
+        tableRow.appendChild(rowCell);
+      }
+    }
+    recordTable.appendChild(tableRow);
   });
-  const userTable = `
-    <form id="select-users-form">
-      <table>
-          <tr>
-            <th> <input type="checkbox" id="selectAll" /> </th>
-            <th> Record Number </th>
-            <th> First Name </th>
-            <th> Last Name </th>
-          </tr>
-        ${tableContent}
-      </table>
-    </form>
-  `;
+  console.log(recordTable);
   const bodyStyle = `
     <style>
       table, th, td {
@@ -51,7 +71,7 @@ function createBodyContent(records) {
   const bodyContent = `
     ${bodyStyle}
     <div id='user-table-div'>
-      ${userTable}
+      ${recordTable.outerHTML}
     </div>`;
   return bodyContent;
 }
@@ -83,10 +103,10 @@ function createFooterContent() {
   return footerContent;
 }
 
-export function selectRecordsDialog(records:object) {
+export function selectRecordsDialog(records:object, config: object) {
   // Create dialog
   newSelectRecordsDialog.title = SELECT_RECORDS_DIALOG_TEXT;
-  newSelectRecordsDialog.content = createBodyContent(records);
+  newSelectRecordsDialog.content = createBodyContent(records, config);
   newSelectRecordsDialog.footer = createFooterContent();
   document.addEventListener('kintone-bulk-upload:select-records-dialog-cancel-click', _ => {
     newSelectRecordsDialog.close();
