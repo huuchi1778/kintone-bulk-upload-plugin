@@ -1,3 +1,4 @@
+/* eslint-disable guard-for-in */
 // @ts-nocheck
 import {FILE_UPLOAD_PATH, RECORDS_UPDATE_PATH, ATTACHMENT_FIELDCODE} from './constant';
 import {errorNotify} from './ui-components/errorNotify';
@@ -10,12 +11,18 @@ export function selectAll() {
   });
 }
 
-export async function handleUpload(formFile:FormData) {
+export async function handleUpload(formFile:FormData, config: object) {
   const selectedRecordsId = getIdFromForm('selectCheckbox');
-  const numRecords = selectedRecordsId.length;
-  const fileKeyList = await getFileKeyList(numRecords, formFile);
-  const requests = prepareRequest(fileKeyList, selectedRecordsId, ATTACHMENT_FIELDCODE);
-
+  const attachmentFieldCodes = [];
+  for (const key in config) {
+    if (key.includes('attachment_field_')) {
+      attachmentFieldCodes.push(config[key]);
+    }
+  }
+  const numFileKeys = selectedRecordsId.length * attachmentFieldCodes.length;
+  const fileKeyList = await getFileKeyList(numFileKeys, formFile);
+  const requests = prepareRequest(fileKeyList, selectedRecordsId, attachmentFieldCodes);
+  console.log(requests);
   kintone.api(kintone.api.url(RECORDS_UPDATE_PATH, true), 'PUT', requests)
     .then(_ => {
       document.dispatchEvent(new Event('kintone-bulk-upload:bulk-upload-success'));
@@ -41,35 +48,32 @@ function getIdFromForm(elName: string) {
   return selectedRecordsId;
 }
 
-function prepareRequest(fileKeyList:any[string], selectedRecordsId:any[number], FILEDCODE:string) {
+function prepareRequest(fileKeyList:any[string], selectedRecordsId:any[number], attachmentFieldCodes:string) {
   const request = {
     'app': kintone.app.getId(),
     'records': []
   };
 
-  for (let i = 0; i < fileKeyList.length; i++) {
+  let key = 0;
+  for (let i = 0; i < selectedRecordsId.length; i++) {
     const recordObj = {
       'id': selectedRecordsId[i],
-      'record': {
-        [FILEDCODE]: {
-          'value': [
-            {
-              'fileKey': fileKeyList[i]
-            }
-          ]
-        }
-      }
+      'record': {}
     };
+    for (let t = 0; t < attachmentFieldCodes.length; t++) {
+      recordObj.record[[attachmentFieldCodes[t]]] = {'value': [{'fileKey': fileKeyList[key]}]};
+      key++;
+    }
     request.records.push(recordObj);
   }
   return request;
 }
 
-function getFileKeyList(numRecords:number, formFile:FormData) {
+function getFileKeyList(numFileKeys:number, formFile:FormData) {
   return new kintone.Promise((resolve: Promise, reject: Promise)=> {
     const fileKeyList = [];
     const thisFormFile = formFile;
-    for (let i = 0; i < numRecords; i++) {
+    for (let i = 0; i < numFileKeys; i++) {
       thisFormFile.append('__REQUEST_TOKEN__', kintone.getRequestToken());
       const xhr = new XMLHttpRequest();
       xhr.open('POST', kintone.api.url(FILE_UPLOAD_PATH, false)); // make XHR synchronous to cut down on complex logic
@@ -83,7 +87,7 @@ function getFileKeyList(numRecords:number, formFile:FormData) {
         } else {
           fileKeyList.push(xhr.response.fileKey);
         }
-        if (fileKeyList.length === numRecords) {
+        if (fileKeyList.length === numFileKeys) {
           resolve(fileKeyList); // ensure num of fileKey is always the same as num of records
         }
       };
