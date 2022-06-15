@@ -104,3 +104,15 @@ export function getFile() {
   formFile.append('file', inputFile.files[0]);
   return formFile;
 }
+
+export function fieldsHaveChanged(formField: object, config: object) {
+  console.log('Form fields: ', formField);
+  console.log('Config: ', config);
+  const formFieldItems = Object.keys(formField);
+  for (const el in config) {
+    if (!formFieldItems.includes(config[el])) {
+      return false;
+    }
+  }
+  return true;
+}

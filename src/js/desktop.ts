@@ -9,12 +9,6 @@ import {loadingSpinner} from './ui-components/loadingSpinner';
   kintone.events.on('app.record.index.show', (event) => {
     // Get config
     const savedConfig = kintone.plugin.app.getConfig(PLUGIN_ID);
-    console.log(savedConfig);
-
-    // kintone.api(kintone.api.url('/k/v1/app/form/fields', true), 'GET', {'app': kintone.app.getId()}, (resp) => {
-    //   // success
-    //   console.log(resp);
-    // });
 
     // Add button to header menu space
     const headerMenuSpaceElement = kintone.app.getHeaderMenuSpaceElement();
@@ -44,7 +38,6 @@ import {loadingSpinner} from './ui-components/loadingSpinner';
       }, 1500);
     });
 
-    // Spinner
     loadingSpinner();
 
     return event;

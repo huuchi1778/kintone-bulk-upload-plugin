@@ -1,4 +1,6 @@
 import {Notification, MultiChoice} from 'kintone-ui-component';
+import {fieldsHaveChanged} from './common';
+import {CONFIG_SUCCESS_NOTIFY_TEXT, CONFIG_WARNING_NOTIFY_TEXT, FIELDS_CHANGED_WARNING_NOTIFY_TEXT} from './constant';
 
 function getAttachmentFields(data) {
   const fieldCode = [];
@@ -73,14 +75,14 @@ function saveConfig(event, PLUGIN_ID) {
     }
 
     kintone.plugin.app.setConfig(saveConfigRequest, () => {
-      const saveSuccessNoti = new Notification({text: 'Plugin settings have been saved. Please update the app!', type: 'success', duration: -1});
+      const saveSuccessNoti = new Notification({text: CONFIG_SUCCESS_NOTIFY_TEXT, type: 'success', duration: -1});
       saveSuccessNoti.open();
       setTimeout(() => {
         window.location.href = `/k/admin/app/flow?app=${kintone.app.getId()}#section=settings`;
       }, 2500);
     });
   } else {
-    const saveErrorNoti = new Notification({text: 'At least ONE field must be selected!', type: 'danger', duration: -1});
+    const saveErrorNoti = new Notification({text: CONFIG_WARNING_NOTIFY_TEXT, type: 'danger', duration: -1});
     saveErrorNoti.open();
   }
 }
@@ -92,12 +94,18 @@ function redirectUser(event) {
 
 (function(PLUGIN_ID) {
   'use strict';
+  const savedConfig = kintone.plugin.app.getConfig(PLUGIN_ID);
+
   kintone.api(kintone.api.url('/k/v1/app/form/fields', true), 'GET', {'app': kintone.app.getId()})
-    .then(resp => {
+    .then((resp: { properties: any; }) => {
       buildAttachmentFieldCheckbox(resp.properties, PLUGIN_ID);
       buildSelectRecordsCheckbox(resp.properties, PLUGIN_ID);
+      if (!fieldsHaveChanged(resp.properties, savedConfig)) {
+        const changedErrorNoti = new Notification({text: FIELDS_CHANGED_WARNING_NOTIFY_TEXT, type: 'danger', duration: -1});
+        changedErrorNoti.open();
+      }
     })
-    .catch(error => {
+    .catch((error: any) => {
       console.error(error);
     });
 
@@ -110,8 +118,5 @@ function redirectUser(event) {
   cancelBtn.addEventListener('click', (event) => {
     redirectUser(event);
   });
-
-  console.log(kintone.plugin.app.getConfig(PLUGIN_ID));
-  console.log(PLUGIN_ID);
 
 })(kintone.$PLUGIN_ID);
