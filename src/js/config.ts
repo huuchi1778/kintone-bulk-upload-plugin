@@ -2,7 +2,7 @@ import {Notification, MultiChoice} from 'kintone-ui-component';
 import {fieldsHaveChanged} from './common';
 import {CONFIG_SUCCESS_NOTIFY_TEXT, CONFIG_WARNING_NOTIFY_TEXT, FIELDS_CHANGED_WARNING_NOTIFY_TEXT} from './constant';
 
-function getAttachmentFields(data) {
+function getAttachmentFields(data: { [x: string]: { code: string; type: string}; }) {
   const fieldCode = [];
   for (const el in data) {
     if (data[el].type === 'FILE') {
@@ -12,7 +12,7 @@ function getAttachmentFields(data) {
   return fieldCode;
 }
 
-function getFieldCodes(data) {
+function getFieldCodes(data: { [x: string]: { code: string; type: string}; }) {
   const fieldCode = [];
   for (const el in data) {
     if (data[el].type === 'SINGLE_LINE_TEXT'
@@ -28,7 +28,7 @@ function getFieldCodes(data) {
   return fieldCode;
 }
 
-function buildAttachmentFieldCheckbox(fieldsData, PLUGIN_ID) {
+function buildAttachmentFieldCheckbox(fieldsData: any, PLUGIN_ID: any) {
   const attachmentCheckboxRow = document.getElementById('attachment-field-row');
   const savedConfig = kintone.plugin.app.getConfig(PLUGIN_ID);
   const fieldCode = getAttachmentFields(fieldsData);
@@ -44,7 +44,7 @@ function buildAttachmentFieldCheckbox(fieldsData, PLUGIN_ID) {
   attachmentCheckboxRow.appendChild(multiChoice);
 }
 
-function buildSelectRecordsCheckbox(fieldsData, PLUGIN_ID) {
+function buildSelectRecordsCheckbox(fieldsData: any, PLUGIN_ID: any) {
   const fieldCode = getFieldCodes(fieldsData);
   const displayTableCheckboxRow = document.getElementById('config-display-table-row');
   const savedConfig = kintone.plugin.app.getConfig(PLUGIN_ID);
@@ -60,7 +60,7 @@ function buildSelectRecordsCheckbox(fieldsData, PLUGIN_ID) {
   displayTableCheckboxRow.appendChild(multiChoice);
 }
 
-function saveConfig(event, PLUGIN_ID) {
+function saveConfig(event: MouseEvent) {
   event.preventDefault();
   const attachmentMultiChoice = document.getElementById('select-attachment-field-multichoice') as any;
   const displayTableMutliChoice = document.getElementById('select-display-field-multichoice') as any;
@@ -87,7 +87,7 @@ function saveConfig(event, PLUGIN_ID) {
   }
 }
 
-function redirectUser(event) {
+function redirectUser(event: MouseEvent) {
   event.preventDefault();
   window.location.href = `/k/admin/app/${kintone.app.getId()}/plugin/`;
 }
@@ -111,7 +111,7 @@ function redirectUser(event) {
 
   const saveBtn = document.getElementById('save-button');
   saveBtn.addEventListener('click', (event) => {
-    saveConfig(event, PLUGIN_ID);
+    saveConfig(event);
   });
 
   const cancelBtn = document.getElementById('cancel-button');
