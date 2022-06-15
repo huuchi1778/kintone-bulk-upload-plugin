@@ -1,6 +1,4 @@
-export const ATTACHMENT_FIELDCODE = 'attached_file';
-// Limitations: wrong fieldcode will not throw an error
-// Ref: https://kintone.dev/en/docs/kintone/rest-api/records/update-record/
+// API PATHS
 export const FILE_UPLOAD_PATH = '/k/v1/file';
 export const RECORDS_UPDATE_PATH = '/k/v1/records';
 // BUTTON TEXTS

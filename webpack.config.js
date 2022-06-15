@@ -5,7 +5,6 @@ module.exports = (env = {}) => {
     entry: {
       desktop: path.resolve(__dirname, 'src/js/desktop.ts'),
       config: path.resolve(__dirname, 'src/js/config.ts'),
-      customization: path.resolve(__dirname, 'src/js/customization.ts')
     },
     output: {
       path: path.resolve(__dirname, "build/js/")

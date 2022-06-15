@@ -8,6 +8,7 @@ export function selectAll() {
   checkboxes.forEach(checkbox => {
     checkbox.checked = selectAllCheckbox.checked;
   });
+
 }
 
 export async function handleUpload(formFile:FormData, config: object) {
