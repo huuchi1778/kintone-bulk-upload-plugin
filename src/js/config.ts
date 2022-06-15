@@ -95,18 +95,15 @@ function redirectUser(event) {
 (function(PLUGIN_ID) {
   'use strict';
   const savedConfig = kintone.plugin.app.getConfig(PLUGIN_ID);
-  kintone.plugin.app.setConfig({});
-  console.log(kintone.plugin.app.getConfig(PLUGIN_ID));
-
 
   kintone.api(kintone.api.url('/k/v1/app/form/fields', true), 'GET', {'app': kintone.app.getId()})
     .then((resp: { properties: any; }) => {
       buildAttachmentFieldCheckbox(resp.properties, PLUGIN_ID);
       buildSelectRecordsCheckbox(resp.properties, PLUGIN_ID);
-      // if (!fieldsHaveChanged(resp.properties, savedConfig)) {
-      //   const changedErrorNoti = new Notification({text: FIELDS_CHANGED_WARNING_NOTIFY_TEXT, type: 'danger', duration: -1});
-      //   changedErrorNoti.open();
-      // }
+      if (!fieldsHaveChanged(resp.properties, savedConfig)) {
+        const changedErrorNoti = new Notification({text: FIELDS_CHANGED_WARNING_NOTIFY_TEXT, type: 'danger', duration: -1});
+        changedErrorNoti.open();
+      }
     })
     .catch((error: any) => {
       console.error(error);

@@ -14,6 +14,6 @@ export const SUCCESS_NOTIFY_TEXT = 'File uploaded successfully.';
 export const ERROR_NOTIFY_TEXT = 'Failed to upload file.\nError message:';
 // CONFIG TEXTS
 export const CONFIG_SUCCESS_NOTIFY_TEXT = 'Plugin settings have been saved. \nPlease update the app!';
-export const CONFIG_WARNING_NOTIFY_TEXT = 'At least ONE field must be selected in each multichoice!';
+export const CONFIG_WARNING_NOTIFY_TEXT = 'At least ONE field must be selected in each multi-choice section!';
 export const FIELDS_CHANGED_WARNING_NOTIFY_TEXT = 'Some fields in your app have changed. \nPlease reconfigure your plug-in!';
 export const EMPTY_CONFIG_WARNING_NOTIFY_TEXT = 'Your plug-in has not been configured. \nPlease configure your plug-in!';

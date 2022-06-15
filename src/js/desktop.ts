@@ -11,7 +11,6 @@ import {EMPTY_CONFIG_WARNING_NOTIFY_TEXT, FIELDS_CHANGED_WARNING_NOTIFY_TEXT} fr
   kintone.events.on('app.record.index.show', (event) => {
     // Get config
     const savedConfig = kintone.plugin.app.getConfig(PLUGIN_ID);
-    console.log('Empty config: ', savedConfig);
 
     // Add button to header menu space
     const headerMenuSpaceElement = kintone.app.getHeaderMenuSpaceElement();
