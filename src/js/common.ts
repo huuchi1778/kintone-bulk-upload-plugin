@@ -5,10 +5,9 @@ import {errorNotify} from './ui-components/errorNotify';
 export function selectAll() {
   const selectAllCheckbox = document.getElementById('selectAll') as HTMLInputElement;
   const checkboxes = document.getElementsByName('selectCheckbox') as any;
-  checkboxes.forEach(checkbox => {
+  checkboxes.forEach((checkbox: { checked: boolean; }) => {
     checkbox.checked = selectAllCheckbox.checked;
   });
-
 }
 
 export async function handleUpload(formFile:FormData, config: object) {
@@ -20,9 +19,9 @@ export async function handleUpload(formFile:FormData, config: object) {
     }
   }
   const numFileKeys = selectedRecordsId.length * attachmentFieldCodes.length;
+
   const fileKeyList = await getFileKeyList(numFileKeys, formFile);
   const requests = prepareRequest(fileKeyList, selectedRecordsId, attachmentFieldCodes);
-  console.log(requests);
   kintone.api(kintone.api.url(RECORDS_UPDATE_PATH, true), 'PUT', requests)
     .then(_ => {
       document.dispatchEvent(new Event('kintone-bulk-upload:bulk-upload-success'));
@@ -54,18 +53,21 @@ function prepareRequest(fileKeyList:any[string], selectedRecordsId:any[number], 
     'records': []
   };
 
-  let key = 0;
+  let key = 0; // keep track of fileKeyList
   for (let i = 0; i < selectedRecordsId.length; i++) {
     const recordObj = {
       'id': selectedRecordsId[i],
       'record': {}
     };
+
     for (let t = 0; t < attachmentFieldCodes.length; t++) {
       recordObj.record[[attachmentFieldCodes[t]]] = {'value': [{'fileKey': fileKeyList[key]}]};
       key++;
     }
+
     request.records.push(recordObj);
   }
+
   return request;
 }
 
