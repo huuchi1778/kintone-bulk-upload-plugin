@@ -1,11 +1,10 @@
-/* eslint-disable guard-for-in */
 // @ts-nocheck
-import {FILE_UPLOAD_PATH, RECORDS_UPDATE_PATH, ATTACHMENT_FIELDCODE} from './constant';
+import {FILE_UPLOAD_PATH, RECORDS_UPDATE_PATH} from './constant';
 import {errorNotify} from './ui-components/errorNotify';
 
 export function selectAll() {
-  const selectAllCheckbox = document.getElementById('selectAll');
-  const checkboxes = document.getElementsByName('selectCheckbox');
+  const selectAllCheckbox = document.getElementById('selectAll') as HTMLInputElement;
+  const checkboxes = document.getElementsByName('selectCheckbox') as any;
   checkboxes.forEach(checkbox => {
     checkbox.checked = selectAllCheckbox.checked;
   });
@@ -34,7 +33,7 @@ export async function handleUpload(formFile:FormData, config: object) {
 }
 
 function getIdFromForm(elName: string) {
-  const checkBoxes = document.getElementsByName(elName);
+  const checkBoxes = document.getElementsByName(elName) as any;
   const selectedRecordsIdStr = [];
   Array.from(checkBoxes).forEach(checkbox => {
     if (checkbox.checked) {
@@ -48,7 +47,7 @@ function getIdFromForm(elName: string) {
   return selectedRecordsId;
 }
 
-function prepareRequest(fileKeyList:any[string], selectedRecordsId:any[number], attachmentFieldCodes:string) {
+function prepareRequest(fileKeyList:any[string], selectedRecordsId:any[number], attachmentFieldCodes:any[string]) {
   const request = {
     'app': kintone.app.getId(),
     'records': []

@@ -3,5 +3,7 @@ declare const kintone: {
   app: any,
   plugin:any,
   $PLUGIN_ID: any
-  api: any
+  api: any,
+  Promise: any,
+  getRequestToken: any;
 };
