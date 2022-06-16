@@ -1,6 +1,6 @@
+import {fieldsHaveChanged} from '../common';
 import {Notification, MultiChoice} from 'kintone-ui-component';
-import {fieldsHaveChanged} from './common';
-import {CONFIG_SUCCESS_NOTIFY_TEXT, CONFIG_WARNING_NOTIFY_TEXT, FIELDS_CHANGED_WARNING_NOTIFY_TEXT} from './constant';
+import {FIELDS_CHANGED_WARNING_NOTIFY_TEXT} from '../constant';
 
 function getAttachmentFields(data: { [x: string]: { code: string; type: string}; }) {
   const fieldCode = [];
@@ -28,7 +28,7 @@ function getFieldCodes(data: { [x: string]: { code: string; type: string}; }) {
   return fieldCode;
 }
 
-function buildAttachmentFieldCheckbox(fieldsData: any, PLUGIN_ID: any) {
+function buildAttachmentFieldCheckbox(fieldsData: { [x: string]: { code: string; type: string; }; }, PLUGIN_ID: string) {
   const attachmentCheckboxRow = document.getElementById('attachment-field-row');
   const savedConfig = kintone.plugin.app.getConfig(PLUGIN_ID);
   const fieldCode = getAttachmentFields(fieldsData);
@@ -44,7 +44,7 @@ function buildAttachmentFieldCheckbox(fieldsData: any, PLUGIN_ID: any) {
   attachmentCheckboxRow.appendChild(multiChoice);
 }
 
-function buildSelectRecordsCheckbox(fieldsData: any, PLUGIN_ID: any) {
+function buildSelectRecordsCheckbox(fieldsData: { [x: string]: { code: string; type: string; }; }, PLUGIN_ID: string) {
   const fieldCode = getFieldCodes(fieldsData);
   const displayTableCheckboxRow = document.getElementById('config-display-table-row');
   const savedConfig = kintone.plugin.app.getConfig(PLUGIN_ID);
@@ -60,44 +60,11 @@ function buildSelectRecordsCheckbox(fieldsData: any, PLUGIN_ID: any) {
   displayTableCheckboxRow.appendChild(multiChoice);
 }
 
-function saveConfig(event: MouseEvent) {
-  event.preventDefault();
-  const attachmentMultiChoice = document.getElementById('select-attachment-field-multichoice') as any;
-  const displayTableMutliChoice = document.getElementById('select-display-field-multichoice') as any;
-  const saveConfigRequest = {};
-  if (attachmentMultiChoice.value.length >= 1 && displayTableMutliChoice.value.length >= 1) {
-    for (let i = 0; i < attachmentMultiChoice.value.length; i++) {
-      saveConfigRequest[`attachment_field_${i}`] = attachmentMultiChoice.value[i];
-    }
-
-    for (let i = 0; i < displayTableMutliChoice.value.length; i++) {
-      saveConfigRequest[`display_field_${i}`] = displayTableMutliChoice.value[i];
-    }
-
-    kintone.plugin.app.setConfig(saveConfigRequest, () => {
-      const saveSuccessNoti = new Notification({text: CONFIG_SUCCESS_NOTIFY_TEXT, type: 'success', duration: -1});
-      saveSuccessNoti.open();
-      setTimeout(() => {
-        window.location.href = `/k/admin/app/flow?app=${kintone.app.getId()}#section=settings`;
-      }, 2500);
-    });
-  } else {
-    const saveErrorNoti = new Notification({text: CONFIG_WARNING_NOTIFY_TEXT, type: 'danger', duration: -1});
-    saveErrorNoti.open();
-  }
-}
-
-function redirectUser(event: MouseEvent) {
-  event.preventDefault();
-  window.location.href = `/k/admin/app/${kintone.app.getId()}/plugin/`;
-}
-
-(function(PLUGIN_ID) {
-  'use strict';
+export default function buildConfigForm(appId: number, PLUGIN_ID: string) {
   const savedConfig = kintone.plugin.app.getConfig(PLUGIN_ID);
 
-  kintone.api(kintone.api.url('/k/v1/app/form/fields', true), 'GET', {'app': kintone.app.getId()})
-    .then((resp: { properties: any; }) => {
+  kintone.api(kintone.api.url('/k/v1/app/form/fields', true), 'GET', {'app': appId})
+    .then((resp: { properties: any[string]; }) => {
       buildAttachmentFieldCheckbox(resp.properties, PLUGIN_ID);
       buildSelectRecordsCheckbox(resp.properties, PLUGIN_ID);
       if (!fieldsHaveChanged(resp.properties, savedConfig)) {
@@ -108,15 +75,4 @@ function redirectUser(event: MouseEvent) {
     .catch((error: any) => {
       console.error(error);
     });
-
-  const saveBtn = document.getElementById('save-button');
-  saveBtn.addEventListener('click', (event) => {
-    saveConfig(event);
-  });
-
-  const cancelBtn = document.getElementById('cancel-button');
-  cancelBtn.addEventListener('click', (event) => {
-    redirectUser(event);
-  });
-
-})(kintone.$PLUGIN_ID);
+}
