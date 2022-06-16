@@ -2,27 +2,27 @@ import {fieldsHaveChanged} from '../common';
 import {Notification, MultiChoice} from 'kintone-ui-component';
 import {FIELDS_CHANGED_WARNING_NOTIFY_TEXT} from '../constant';
 
-function getAttachmentFields(data: { [x: string]: { code: string; type: string}; }) {
+function getAttachmentFields(fieldsData: { [x: string]: { code: string; type: string}; }) {
   const fieldCode = [];
-  for (const el in data) {
-    if (data[el].type === 'FILE') {
-      fieldCode.push(data[el].code);
+  for (const el in fieldsData) {
+    if (fieldsData[el].type === 'FILE') {
+      fieldCode.push(fieldsData[el].code);
     }
   }
   return fieldCode;
 }
 
-function getFieldCodes(data: { [x: string]: { code: string; type: string}; }) {
+function getFieldCodes(fieldsData: { [x: string]: { code: string; type: string}; }) {
   const fieldCode = [];
-  for (const el in data) {
-    if (data[el].type === 'SINGLE_LINE_TEXT'
-        || data[el].type === 'RECORD_NUMBER'
-        || data[el].type === 'CREATOR'
-        || data[el].type === 'CREATED_TIME'
-        || data[el].type === 'MODIFIER'
-        || data[el].type === 'STATUS'
-        || data[el].type === 'UPDATED_TIME') {
-      fieldCode.push(data[el].code);
+  for (const el in fieldsData) {
+    if (fieldsData[el].type === 'SINGLE_LINE_TEXT'
+        || fieldsData[el].type === 'RECORD_NUMBER'
+        || fieldsData[el].type === 'CREATOR'
+        || fieldsData[el].type === 'CREATED_TIME'
+        || fieldsData[el].type === 'MODIFIER'
+        || fieldsData[el].type === 'STATUS'
+        || fieldsData[el].type === 'UPDATED_TIME') {
+      fieldCode.push(fieldsData[el].code);
     }
   }
   return fieldCode;
