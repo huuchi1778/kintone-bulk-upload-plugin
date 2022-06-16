@@ -3,8 +3,8 @@ const path = require('path');
 module.exports = (env = {}) => {
   return {
     entry: {
-      desktop: path.resolve(__dirname, 'src/js/desktop.ts'),
-      config: path.resolve(__dirname, 'src/js/config.ts'),
+      desktop: path.resolve(__dirname, 'src/js/desktop/index.ts'),
+      config: path.resolve(__dirname, 'src/js/config/index.ts'),
     },
     output: {
       path: path.resolve(__dirname, "build/js/")

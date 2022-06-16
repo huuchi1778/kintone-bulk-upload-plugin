@@ -1,11 +1,9 @@
 import {bulkUploadBtn} from '../ui-components/bulkUploadBtn';
 import {browseFileDialog} from '../ui-components/browseFileDialog';
 import {selectRecordsDialog} from '../ui-components/selectRecordsDialog';
-import {getFile, handleUpload, fieldsHaveChanged} from '../common';
+import {getFile, handleUpload} from '../common';
 import {successNotify} from '../ui-components/successNotify';
 import {loadingSpinner} from '../ui-components/loadingSpinner';
-import {Notification} from 'kintone-ui-component';
-import {EMPTY_CONFIG_WARNING_NOTIFY_TEXT, FIELDS_CHANGED_WARNING_NOTIFY_TEXT} from '../constant';
 import errorHandling from './errorHandling';
 
 (function(PLUGIN_ID) {
