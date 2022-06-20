@@ -10,7 +10,7 @@ import {CANCEL_BUTTON_TEXT, UPLOAD_BUTTON_TEXT, SELECT_RECORDS_DIALOG_TEXT} from
 const newSelectRecordsDialog = new Dialog();
 
 // Create content
-function createBodyContent(records, config) {
+function createBodyContent(records: object, config: object) {
   const recordTable = document.createElement('table');
 
   const tableHeadRow = document.createElement('tr');
@@ -29,7 +29,7 @@ function createBodyContent(records, config) {
   }
   recordTable.appendChild(tableHeadRow);
 
-  records.forEach(record => {
+  records.forEach((record: { [x: string]: { value: string; }; $id: { value: string; }; }) => {
     const tableRow = document.createElement('tr');
     const record_id_cell = document.createElement('td');
     const record_id_input = document.createElement('input');
