@@ -4,7 +4,7 @@
   "type": "APP",
   "desktop": {
     "js": [
-      "js/desktop/index.js"
+      "js/desktop.js"
     ],
     "css": [
       "css/51-modern-default.css",
@@ -15,7 +15,7 @@
   "config": {
     "html": "html/config.html",
     "js": [
-      "js/config/index.js"
+      "js/config.js"
     ],
     "css": [
       "css/51-modern-default.css",

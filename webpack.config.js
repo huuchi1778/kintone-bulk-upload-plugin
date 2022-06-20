@@ -7,7 +7,7 @@ module.exports = (env = {}) => {
       config: path.resolve(__dirname, 'src/js/config/index.ts'),
     },
     output: {
-      path: path.resolve(__dirname, "build/js/")
+      path: path.resolve(__dirname, "src/js/")
     },
     target: ["web", "es5"],
     module: {
