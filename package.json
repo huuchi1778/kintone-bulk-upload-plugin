@@ -4,7 +4,7 @@
   "scripts": {
     "start": "node scripts/npm-start.js",
     "develop": "npm run build -- --watch",
-    "build": "npm run webpack:build && kintone-plugin-packer --ppk private.ppk --out dist/plugin.zip src && npm run cleanup ",
+    "build": "npm run webpack:build && kintone-plugin-packer --ppk private.ppk --out dist/bulk-upload-plugin.zip src && npm run cleanup ",
     "lint": "eslint src",
     "upload": "kintone-plugin-uploader dist/plugin.zip --watch --waiting-dialog-ms 3000",
     "webpack:build": "webpack --mode=development",
