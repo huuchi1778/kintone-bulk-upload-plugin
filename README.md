@@ -9,6 +9,12 @@ In addition to that, users can also select which fields to be display in the Sel
 Please see the following documents to learn more about configuring a plugin: 
 * https://get.kintone.help/k/en/user/app_settings/plugin.html
 
+## Requirement
+```sh
+* node.js
+* Git
+```
+
 ## How to build
 ```sh
 $ cd /temp
