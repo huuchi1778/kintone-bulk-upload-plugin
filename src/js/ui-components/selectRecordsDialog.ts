@@ -50,7 +50,17 @@ function createBodyContent(records, config) {
 
   const bodyStyle = `
     <style>
-      table, th, td {
+      #user-table-div table {
+        border: 1px solid gray;
+        border-collapse: collapse;
+        padding:10px;
+      }
+      #user-table-div th {
+        border: 1px solid gray;
+        border-collapse: collapse;
+        padding:10px;
+      }
+      #user-table-div td {
         border: 1px solid gray;
         border-collapse: collapse;
         padding:10px;
