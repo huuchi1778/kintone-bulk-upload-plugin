@@ -1,6 +1,6 @@
 import {fieldsHaveChanged} from '../common';
 import {Notification, MultiChoice} from 'kintone-ui-component';
-import {FIELDS_CHANGED_WARNING_NOTIFY_TEXT} from '../constant';
+import {FIELDS_CHANGED_WARNING_NOTIFY_TEXT, SUPPORTED_FIELD_CODES} from '../constant';
 
 function getAttachmentFields(fieldsData: { [x: string]: { code: string; type: string}; }) {
   const fieldCode = [];
@@ -14,16 +14,13 @@ function getAttachmentFields(fieldsData: { [x: string]: { code: string; type: st
 
 function getFieldCodes(fieldsData: { [x: string]: { code: string; type: string}; }) {
   const fieldCode = [];
+  // eslint-disable-next-line guard-for-in
   for (const el in fieldsData) {
-    if (fieldsData[el].type === 'SINGLE_LINE_TEXT'
-        || fieldsData[el].type === 'RECORD_NUMBER'
-        || fieldsData[el].type === 'CREATOR'
-        || fieldsData[el].type === 'CREATED_TIME'
-        || fieldsData[el].type === 'MODIFIER'
-        || fieldsData[el].type === 'STATUS'
-        || fieldsData[el].type === 'UPDATED_TIME') {
-      fieldCode.push(fieldsData[el].code);
-    }
+    SUPPORTED_FIELD_CODES.forEach(FIELD_CODE => {
+      if (fieldsData[el].type === FIELD_CODE) {
+        fieldCode.push(fieldsData[el].code);
+      }
+    });
   }
   return fieldCode;
 }
