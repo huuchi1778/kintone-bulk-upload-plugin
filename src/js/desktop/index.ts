@@ -14,7 +14,7 @@ import errorHandling from './errorHandling';
     // Add button to header menu space
     const headerMenuSpaceElement = kintone.app.getHeaderMenuSpaceElement();
     if (headerMenuSpaceElement === null) {
-      throw new Error('The header menu element is unavailable on t/docs/rules/no-undefhis page');
+      throw new Error('The header menu element is unavailable. Please refresh the page!');
     } else {
       headerMenuSpaceElement.appendChild(bulkUploadBtn);
     }
